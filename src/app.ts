@@ -7,7 +7,8 @@ import {
   addKeyword,
   EVENTS,
 } from "@builderbot/bot";
-import { MemoryDB as Database } from "@builderbot/bot";
+// import { MemoryDB as Database } from "@builderbot/bot";
+import { IDatabase, adapterDB } from './utils/mongo-db';
 import {
   BaileysProvider,
   BaileysProvider as Provider,
@@ -21,7 +22,7 @@ const ASSISTANT_ID = process.env?.ASSISTANT_ID ?? "";
 const ADMIN_NUMBER = process.env?.ADMIN_NUMBER ?? "";
 
 
-const welcomeFlow = addKeyword<Provider, Database>(EVENTS.WELCOME).addAction(
+const welcomeFlow = addKeyword<Provider, IDatabase>(EVENTS.WELCOME).addAction(
   async (ctx, { flowDynamic, state, provider, blacklist, gotoFlow }) => {
     // reviso si esta muteado
     const dataCheck = blacklist.checkIf(ctx.from);
@@ -70,7 +71,7 @@ const flow = addKeyword<BaileysProvider>(["deseo hablar con ventas", "quiero hab
   })
   .addAnswer("Espero haber contestado todos tus dudas, por favor espera a que un agente de ventas continue con esta conversación");
 
-const desmutear = addKeyword<Provider, Database>("dudas").addAction(
+const desmutear = addKeyword<Provider, IDatabase>("dudas").addAction(
   async (ctx, { blacklist, flowDynamic }) => {
     const numero = ctx.from;
     const check = blacklist.checkIf(numero);
@@ -88,7 +89,7 @@ const main = async () => {
   const adapterFlow = createFlow([welcomeFlow, flow]);
   // const adapterFlow = createFlow([welcomeFlow, blackListFlow]);
   const adapterProvider = createProvider(Provider);
-  const adapterDB = new Database();
+  // const IDatabase = new Database();
 
   const { httpServer } = await createBot({
     flow: adapterFlow,

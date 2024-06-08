@@ -14,6 +14,7 @@
   "dependencies": {
     "@builderbot-plugins/openai-assistants": "^0.0.2",
     "@builderbot/bot": "1.1.4-alpha.2",
+    "@builderbot/database-mongo": "^1.1.6",
     "@builderbot/provider-baileys": "^1.1.6",
     "dotenv": "^16.4.5"
   },
